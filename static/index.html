@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>Elite Dangerous Star Map Visualizer</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body class="w-full h-screen">
+		<div class="flex w-full h-full">
+			
+			<div id="galaxy-overview" class="w-2/3 h-full"></div>
+
+			<div class="w-1/3 h-full flex flex-col">
+
+				<div class="flex-1 w-full relative">
+					<div id="sol-zoom" class="h-full w-full"></div>
+					<div id="sol-zoom-annotation" class="absolute left-0 bottom-0 annotation-bg annotation-text-color rounded-lg m-5 px-5 py-2">
+						<span id="sol-zoom-annotation-text" class="text-lg font-mono font-semibold"></span>
+					</div>
+				</div>
+
+				<div class="flex-1 w-full relative">
+					<div id="sol-rotating" class="w-full h-full"></div>
+					<div id="sol-rotating-annotation" class="absolute left-0 bottom-0 annotation-bg annotation-text-color rounded-lg m-5 px-5 py-2">
+						<span id="sol-rotating-annotation-text" class="text-lg font-mono font-semibold">View from 'Sol'</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</body>
+</html>

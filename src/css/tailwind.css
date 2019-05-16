@@ -1,0 +1,13 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+.annotation-bg {
+    background-color: rgba(50, 50, 50, 0.25)
+}
+
+.annotation-text-color {
+    color: rgb(255, 166, 0);
+}
