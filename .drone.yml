@@ -8,6 +8,7 @@ steps:
   image: node:10-alpine
   commands:
   - apk add --update make gcc g++ python zeromq zeromq-dev
+  - npm install -g webpack
   - npm install
   - webpack
 
