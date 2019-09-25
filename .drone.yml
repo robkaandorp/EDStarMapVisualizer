@@ -7,6 +7,8 @@ steps:
 - name: build
   image: node:10-alpine
   commands:
+  - apt-get update -qq
+  - apt-get install -y -qq libzmq-dev
   - npm install
   - webpack
 
