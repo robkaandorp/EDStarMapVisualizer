@@ -10,6 +10,7 @@ steps:
     repo: robkaandorp/edstarmapvisualizer
     auto_tag: true
     dry_run: true
+    purge: false
 
 trigger:
   branch:
