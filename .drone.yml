@@ -9,7 +9,7 @@ steps:
   settings:
     repo: robkaandorp/edstarmapvisualizer
     auto_tag: true
-    dry-run: true
+    dry_run: true
 
 trigger:
   branch:
