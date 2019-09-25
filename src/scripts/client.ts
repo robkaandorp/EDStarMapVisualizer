@@ -11,20 +11,28 @@ const socket = socketio();
 
 // Sagitarius A*
 const galaxyOverviewElement = document.getElementById( "galaxy-overview" );
-const galaxyOverviewRenderer = new THREE.WebGLRenderer();
+const galaxyOverviewRenderer = new THREE.WebGLRenderer( { antialias: true } );
+galaxyOverviewRenderer.setPixelRatio( window.devicePixelRatio );
 galaxyOverviewRenderer.setSize( galaxyOverviewElement.clientWidth, galaxyOverviewElement.clientHeight );
 galaxyOverviewElement.appendChild( galaxyOverviewRenderer.domElement );
 
 const galaxyOverviewCamera = new THREE.PerspectiveCamera( 90, galaxyOverviewElement.clientWidth / galaxyOverviewElement.clientHeight, 0.1, 100000 );
 galaxyOverviewCamera.position.set( 25.21875, -50000, 25899.96875 );
 galaxyOverviewCamera.lookAt( 25.21875, -20.90625, 25899.96875 ); // Sagitarius A*
+
+function onGalaxyOverviewResize() {
+    galaxyOverviewCamera.aspect = galaxyOverviewElement.clientWidth / galaxyOverviewElement.clientHeight;
+    galaxyOverviewCamera.updateProjectionMatrix();
+    galaxyOverviewRenderer.setSize( galaxyOverviewElement.clientWidth, galaxyOverviewElement.clientHeight );
+}
 // /Sagitarius A*
 
 
 // Sol
 const solZoomElement = document.getElementById( "sol-zoom" );
 const solZoomAnnotationTextElement = document.getElementById( "sol-zoom-annotation-text" );
-const solZoomRenderer = new THREE.WebGLRenderer();
+const solZoomRenderer = new THREE.WebGLRenderer( { antialias: true } );
+solZoomRenderer.setPixelRatio( window.devicePixelRatio );
 solZoomRenderer.setSize( solZoomElement.clientWidth, solZoomElement.clientHeight );
 solZoomElement.appendChild( solZoomRenderer.domElement );
 
@@ -34,6 +42,12 @@ solZoomCamera.lookAt( 0, 0, 0 ); // Sol
 
 const solZoomControls = new OrbitControls(solZoomCamera, solZoomElement);
 solZoomControls.update();
+
+function onSolZoomResize() {
+    solZoomCamera.aspect = solZoomElement.clientWidth / solZoomElement.clientHeight;
+    solZoomCamera.updateProjectionMatrix();
+    solZoomRenderer.setSize( solZoomElement.clientWidth, solZoomElement.clientHeight );
+}
 // /Sol
 
 
@@ -57,23 +71,38 @@ function onClick( event: MouseEvent ) {
 solZoomElement.addEventListener( 'click', onClick, false );
 
 
-
-
 // Sol rotating
 const solRotatingElement = document.getElementById( "sol-rotating" );
 const solRotatingAnnotationTextElement = document.getElementById( "sol-rotating-annotation-text" );
-const solRotatingRenderer = new THREE.WebGLRenderer();
+const solRotatingRenderer = new THREE.WebGLRenderer( { antialias: true } );
+solRotatingRenderer.setPixelRatio( window.devicePixelRatio );
 solRotatingRenderer.setSize( solRotatingElement.clientWidth, solRotatingElement.clientHeight );
 solRotatingElement.appendChild( solRotatingRenderer.domElement );
 
-const solRotatingCamera = new THREE.PerspectiveCamera( 50, solRotatingElement.clientWidth / solRotatingElement.clientHeight, 0.1, 100000 );
+const solRotatingCamera = new THREE.PerspectiveCamera( 50, solRotatingElement.clientWidth / solRotatingElement.clientHeight, 0.1, 1000 );
 solRotatingCamera.position.set( 0, 0, 0 );
 solRotatingCamera.up.set(0, -1, 0);
 solRotatingCamera.lookAt( 25.21875, -20.90625, 25899.96875 ); // Sagitarius A*
+
+function onSolRotatingResize() {
+    solRotatingCamera.aspect = solRotatingElement.clientWidth / solRotatingElement.clientHeight;
+    solRotatingCamera.updateProjectionMatrix();
+    solRotatingRenderer.setSize( solRotatingElement.clientWidth, solRotatingElement.clientHeight );
+}
 // /Sol rotating
 
 
+function onWindowResize() {
+    onGalaxyOverviewResize();
+    onSolZoomResize();
+    onSolRotatingResize();
+}
+
+window.addEventListener( 'resize', onWindowResize, false );
+
+
 const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2( 0x000000, 0.0008 );
 
 const ambiLight = new THREE.AmbientLight( 0x404040 ); // soft white light
 scene.add( ambiLight );
@@ -93,7 +122,8 @@ scene.add( gridHelper );
 
 
 // StarField
-const starGeometry = new THREE.OctahedronBufferGeometry( 1, 2 );
+//const starGeometry = new THREE.OctahedronBufferGeometry( 1, 2 );
+const starGeometry = new THREE.SphereBufferGeometry(1, 32, 16)
 const starMaterial = new THREE.MeshStandardMaterial( { color: 0xfff291, metalness: 0.2, roughness: 0.8 } );
 const starField = new THREE.Group();
 scene.add( starField );
