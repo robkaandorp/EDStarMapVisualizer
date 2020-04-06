@@ -1,14 +1,13 @@
-FROM node:10-alpine AS builder
+FROM node:12-alpine AS builder
+RUN apk add --update make gcc g++ python zeromq zeromq-dev
 WORKDIR /app
 COPY . ./
-RUN rm -rf ./dist ./node_modules
-RUN apk add --update make gcc g++ python zeromq zeromq-dev
-RUN npm install -g webpack webpack-cli typescript
 RUN npm install
-RUN webpack
-RUN tsc
+RUN npx webpack
+RUN npx tsc
+RUN npm prune --production
 
-FROM node:10-alpine AS dist
+FROM node:12-alpine AS dist
 EXPOSE 3000
 WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
