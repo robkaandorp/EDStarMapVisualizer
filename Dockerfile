@@ -1,13 +1,14 @@
-FROM node:12-alpine AS builder
-RUN apk add --update make gcc g++ python zeromq zeromq-dev
+FROM node:18-alpine AS builder
+RUN apk add --update make gcc g++ python3 zeromq zeromq-dev
 WORKDIR /app
 COPY . ./
 RUN npm install
+RUN npx tailwindcss -o ./dist/static/build.css --minify
 RUN npx webpack
 RUN npx tsc
 RUN npm prune --production
 
-FROM node:12-alpine AS dist
+FROM node:18-alpine AS dist
 EXPOSE 3000
 WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules

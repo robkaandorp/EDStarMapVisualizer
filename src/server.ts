@@ -11,8 +11,8 @@ const http = new _http.Server(app);
 
 app.use(express.static('./dist/static'));
 
-import socketio from 'socket.io';
-const io = socketio(http);
+import { Server } from 'socket.io';
+const io = new Server(http);
 
 
 import zlib from 'zlib';

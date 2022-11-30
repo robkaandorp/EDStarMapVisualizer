@@ -123,7 +123,7 @@ scene.add( gridHelper );
 
 // StarField
 //const starGeometry = new THREE.OctahedronBufferGeometry( 1, 2 );
-const starGeometry = new THREE.SphereBufferGeometry(1, 32, 16)
+const starGeometry = new THREE.SphereGeometry(1, 32, 16)
 const starMaterial = new THREE.MeshStandardMaterial( { color: 0xfff291, metalness: 0.2, roughness: 0.8 } );
 const starField = new THREE.Group();
 scene.add( starField );
